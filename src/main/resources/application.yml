@@ -1,0 +1,6 @@
+xAuthToken: ${xAuthToken}
+hostName: ${hostName}
+port: ${port}
+user: ${user}
+password: ${password}
+database: ${database}
