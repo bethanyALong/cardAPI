@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "TRANSACTION_DETAILS_TBL")
 public class TransactionDetails{
 
-    private UserDetails userDetails;
+//    private UserDetails userDetails;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,9 +40,9 @@ public class TransactionDetails{
     @NotNull
     private String merchant_code;
 
-    @ManyToOne
-    @JoinColumn(name = "user_details")
-    public UserDetails getUserDetails(){
-        return userDetails;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "user_details")
+//    public UserDetails getUserDetails(){
+//        return userDetails;
+//    }
 }

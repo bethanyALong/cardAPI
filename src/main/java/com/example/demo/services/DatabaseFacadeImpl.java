@@ -41,7 +41,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
     @Override
     public ResponseEntity<ResponseModel> deleteUser(UserDetails userDetails){
         try {
-            UserDetails existingUser = userDetailsRepository.findById(userDetails.getUserID()).orElse(null);
+            UserDetails existingUser = userDetailsRepository.findByUserID(userDetails.getUserID()).orElse(null);
             userDetailsRepository.delete(existingUser);
             responseModel.errorCode = ErrorCodeEnum.SUCCESS_DELETION.errorCode;
             responseModel.errorMessage = ErrorCodeEnum.SUCCESS_DELETION.errorMessage;

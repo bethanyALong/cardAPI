@@ -43,9 +43,9 @@ public class UserDetails {
     @NotNull
     private String emailAddress;
 
-    @Column(name = "transaction_history")
-    @JsonProperty(value = "transaction_history")
-    private List<TransactionDetails> transactions;
+//    @Column(name = "transaction_history")
+//    @JsonProperty(value = "transaction_history")
+//    private List<TransactionDetails> transactions;
 
     @Column(name = "long_card_number")
     @JsonProperty(value = "long_card_number")
@@ -70,13 +70,13 @@ public class UserDetails {
     private Integer balance;
 
 
-    @OneToMany(targetEntity = TransactionDetails.class,
-            mappedBy = "userDetails",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    public List<TransactionDetails> getTransactionDetails(){
-        return getTransactions();
-    }
+//    @OneToMany(targetEntity = TransactionDetails.class,
+//            mappedBy = "userDetails",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.EAGER)
+//    public List<TransactionDetails> getTransactionDetails(){
+//        return getTransactions();
+//    }
 
 
 }
