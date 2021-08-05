@@ -6,10 +6,10 @@ public class RequestBuilder {
 
     public UserDetails getUserDetails(){
         UserDetails userDetails = new UserDetails();
-        userDetails.id = 1;
-        userDetails.first_name = "Beth";
-        userDetails.last_name = "Long";
-        userDetails.email_address = "Bethany@email.com";
+        userDetails.setUserID(1);
+        userDetails.setFirstName("Beth");
+        userDetails.setLastName("Long");
+        userDetails.setEmailAddress("Bethany@email.com");
         return userDetails;
     }
 }

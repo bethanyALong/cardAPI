@@ -17,9 +17,4 @@ public class UserFacadeImpl implements UserFacade {
         return databaseFacade.registerUser(userDetails);
     }
 
-    @Override
-    public ResponseEntity<ResponseModel> deleteUser(UserDetails userDetails) {
-        return databaseFacade.deleteUser(userDetails);
-
-    }
 }

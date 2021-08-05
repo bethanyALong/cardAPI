@@ -5,7 +5,6 @@ import com.example.demo.services.models.UserDetails;
 import com.example.demo.services.UserFacade;
 import com.example.demo.services.models.ErrorCodeEnum;
 import com.example.demo.services.models.ResponseModel;
-import com.example.demo.services.models.TransactionDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -36,25 +35,27 @@ public class CardApiApplicationController implements WebMvcConfigurer {
         return response;
     }
 
-    @PostMapping("/delete-user")
-    public ResponseEntity<ResponseModel> deleteUser(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
+    @PostMapping("/vendor-switch")
+    public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
         ResponseEntity<ResponseModel> response;
         response = validateAuth(xAuthToken);
-        if (response == null) {
-            response = userFacade.deleteUser(userDetails);
-        }
+        if (response == null){
+            response = userFacade.registerUser(userDetails);}
         return response;
     }
 
-    @PostMapping("/make-transaction")
-    public ResponseEntity<ResponseModel> makeTransaction(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) TransactionDetails transactionDetails){
-        ResponseEntity<ResponseModel> response;
-        response = validateAuth(xAuthToken);
-        if (response == null) {
-            response = paymentFacade.makePurchase(transactionDetails);
-        }
-        return response;
-    }
+
+
+
+//    @PostMapping("/make-transaction")
+//    public ResponseEntity<ResponseModel> makeTransaction(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) ){
+//        ResponseEntity<ResponseModel> response;
+//        response = validateAuth(xAuthToken);
+//        if (response == null) {
+//            response = paymentFacade.makePurchase(transactionDetails);
+//        }
+//        return response;
+//    }
 
 
 
@@ -66,8 +67,8 @@ public class CardApiApplicationController implements WebMvcConfigurer {
             return null;
         }  else {
             ResponseModel errorModel = new ResponseModel();
-            errorModel.errorCode = ErrorCodeEnum.FOBIDDEN_REQUEST.errorCode;
-            errorModel.errorMessage = ErrorCodeEnum.FOBIDDEN_REQUEST.errorMessage;
+            errorModel.responseCode = ErrorCodeEnum.FOBIDDEN_REQUEST.errorCode;
+            errorModel.responseMessage = ErrorCodeEnum.FOBIDDEN_REQUEST.errorMessage;
             return new ResponseEntity<>(errorModel, HttpStatus.FORBIDDEN);
         }
 

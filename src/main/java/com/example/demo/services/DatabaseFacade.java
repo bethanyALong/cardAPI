@@ -10,7 +10,4 @@ public interface DatabaseFacade {
 
     ResponseEntity<ResponseModel> registerUser(UserDetails userDetails);
 
-    ResponseEntity<ResponseModel> deleteUser(UserDetails userDetails);
-
-
 }

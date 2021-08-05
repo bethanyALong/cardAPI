@@ -10,5 +10,4 @@ public interface UserFacade {
 
     ResponseEntity<ResponseModel> registerUser(UserDetails userDetails);
 
-    ResponseEntity<ResponseModel> deleteUser(UserDetails userDetails);
 }
