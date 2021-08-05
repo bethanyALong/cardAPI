@@ -4,6 +4,5 @@ public class ResponseModel {
 
     public String responseCode;
     public String responseMessage;
-    public UserDetails userDetails;
-//    public TransactionDetails transactionDetails;
+    public UserDetails details;
 }

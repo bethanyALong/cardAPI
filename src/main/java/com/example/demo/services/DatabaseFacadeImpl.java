@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class DatabaseFacadeImpl implements DatabaseFacade{
 
@@ -21,14 +24,15 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         ResponseModel responseModel = new ResponseModel();
         HttpStatus httpStatus;
         try {
-            responseModel.userDetails = userDetailsRepository.save(userDetails);
+            responseModel.details = userDetailsRepository.save(userDetails);
             responseModel.responseCode = ErrorCodeEnum.SUCCESS_CREATION.errorCode;
             responseModel.responseMessage = ErrorCodeEnum.SUCCESS_CREATION.errorMessage;
             httpStatus = HttpStatus.OK;
         } catch (TransactionSystemException e){
             responseModel.responseCode = ErrorCodeEnum.VALIDATION_FAILURE.errorCode;
             String message = e.getCause().getCause().getMessage();
-            responseModel.responseMessage = ErrorCodeEnum.VALIDATION_FAILURE.errorMessage.replace("x", message);
+            String validationFailures = validationValues(message);
+            responseModel.responseMessage = ErrorCodeEnum.VALIDATION_FAILURE.errorMessage.replace("x", validationFailures);
             httpStatus = HttpStatus.BAD_REQUEST;
         } catch (Exception e){
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
@@ -36,6 +40,20 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(responseModel, httpStatus);
+    }
+
+    public String validationValues(String message){
+        List<String> inputString = Arrays.asList(message.split(","));
+        String word = "propertyPath=";
+        StringBuilder response = new StringBuilder("the following parameters: ");
+        for (String s : inputString){
+            if (s.contains(word)){
+                String s1 = s.replace(word, "");
+                response.append(s1).append(",");
+            }
+        }
+        response.replace(response.length()-1, response.length(), ".");
+        return response.toString();
     }
 
 }

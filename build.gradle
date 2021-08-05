@@ -33,11 +33,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
 	implementation 'mysql:mysql-connector-java:8.0.26'
 	implementation 'org.springframework.data:spring-data-jpa:2.5.3'
-
-
-
-
-
 }
 
 test {
