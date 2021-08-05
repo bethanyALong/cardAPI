@@ -1,4 +1,4 @@
-package com.example.demo.services.models;
+package com.example.demo.models;
 
 public enum GenderEnum {
 

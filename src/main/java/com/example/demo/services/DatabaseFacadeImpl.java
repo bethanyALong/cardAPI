@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.services.models.ErrorCodeEnum;
-import com.example.demo.services.models.ResponseModel;
-import com.example.demo.services.models.UserDetails;
+import com.example.demo.models.ErrorCodeEnum;
+import com.example.demo.models.ResponseModel;
+import com.example.demo.models.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +35,23 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             responseModel.responseMessage = ErrorCodeEnum.VALIDATION_FAILURE.errorMessage.replace("x", validationFailures);
             httpStatus = HttpStatus.BAD_REQUEST;
         } catch (Exception e){
+            responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
+            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage.replace("x", e.getMessage());
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(responseModel, httpStatus);
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> getUser(Integer id) {
+        ResponseModel responseModel = new ResponseModel();
+        HttpStatus httpStatus;
+        try {
+            responseModel.details = userDetailsRepository.findByUserID(id).orElse(null);
+            responseModel.responseCode = ErrorCodeEnum.SUCCESS_GET.errorCode;
+            responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.errorMessage;
+            httpStatus = HttpStatus.OK;
+        }catch (Exception e){
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
             responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage.replace("x", e.getMessage());
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -1,11 +1,9 @@
 package com.example.demo.api;
 
 import com.example.demo.exceptions.InvalidAuthorisationException;
-import com.example.demo.services.PaymentFacade;
-import com.example.demo.services.models.UserDetails;
-import com.example.demo.services.UserFacade;
-import com.example.demo.services.models.ErrorCodeEnum;
-import com.example.demo.services.models.ResponseModel;
+import com.example.demo.models.*;
+import com.example.demo.services.DatabaseFacade;
+import com.example.demo.services.VendorFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,39 +19,25 @@ public class CardApiApplicationController implements WebMvcConfigurer {
     private String AuthToken;
 
     @Autowired
-    PaymentFacade paymentFacade;
+    DatabaseFacade databaseFacade;
 
     @Autowired
-    UserFacade userFacade;
+    VendorFacade vendorFacade;
 
 
     @PostMapping("/register-user")
     public ResponseEntity<ResponseModel> registerUser(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
         validateAuth(xAuthToken);
-        ResponseEntity<ResponseModel> response = userFacade.registerUser(userDetails);
+        ResponseEntity<ResponseModel> response = databaseFacade.registerUser(userDetails);
         return response;
     }
 
     @PostMapping("/vendor-switch")
-    public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
+    public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestHeader(value = "userID", required = true)  Integer userID, @RequestBody(required = true) Stores stores){
         validateAuth(xAuthToken);
-        ResponseEntity<ResponseModel> response = userFacade.registerUser(userDetails);
+        ResponseEntity<ResponseModel> response = vendorFacade.switchVendor(stores, userID);
         return response;
     }
-
-
-
-
-//    @PostMapping("/make-transaction")
-//    public ResponseEntity<ResponseModel> makeTransaction(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) ){
-//        ResponseEntity<ResponseModel> response;
-//        response = validateAuth(xAuthToken);
-//        if (response == null) {
-//            response = paymentFacade.makePurchase(transactionDetails);
-//        }
-//        return response;
-//    }
-
 
 
     public void validateAuth(String xAuthToken){

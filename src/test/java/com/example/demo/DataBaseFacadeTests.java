@@ -2,7 +2,7 @@ package com.example.demo;
 
 import builders.RequestBuilder;
 import com.example.demo.services.DatabaseFacade;
-import com.example.demo.services.models.UserDetails;
+import com.example.demo.models.UserDetails;
 import com.example.demo.services.UserDetailsRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -72,26 +72,6 @@ public class DataBaseFacadeTests {
         assert databaseFacade.registerUser(userDetails).getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-
-    @Test
-    void deleteUserSuccess(){
-        when(userDetailsRepository.save(userDetails)).thenReturn(userDetails);
-        assert databaseFacade.deleteUser(userDetails).getStatusCode().equals(HttpStatus.OK);
-    }
-
-    @Test
-    void deleteUserFailureDueToDatabaseException(){
-        when(userDetailsRepository.save(userDetails)).thenThrow(new RuntimeException("Database issue"));
-        assert databaseFacade.deleteUser(userDetails).getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @Test
-    void deleteUserFailureDueToEntryNotFound(){
-        userDetails.setUserID(100);
-        when(userDetailsRepository.save(userDetails)).thenThrow(new RuntimeException("Database issue"));
-        assert databaseFacade.deleteUser(userDetails).getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
 
 }

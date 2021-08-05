@@ -1,11 +1,13 @@
-package com.example.demo.services.models;
+package com.example.demo.models;
 
 public enum ErrorCodeEnum {
 
     SUCCESS_CREATION("001", "User created successfully"),
     FOBIDDEN_REQUEST("004", "Forbidden request"),
     DATABASE_FAILURE("005", "Database failure due to x"),
-    VALIDATION_FAILURE("006", "Validation failure due to x");
+    VALIDATION_FAILURE("006", "Validation failure due to x"),
+    SUCCESS_GET("007", "User successfully retrieved");
+
 
 
     public String errorMessage;
