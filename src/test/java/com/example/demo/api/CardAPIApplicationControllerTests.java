@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CardApiApplicationController.class)
+@WebMvcTest(UserApiApplicationController.class)
 @RunWith(SpringRunner.class)
 public class CardAPIApplicationControllerTests {
 

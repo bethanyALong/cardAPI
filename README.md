@@ -1,7 +1,8 @@
-# Checkout Service
+# User Service
 
-CardAPI is a Java based SpringBoot RESTful API designed to provide user registration and vendor switching functionality for an online buy now pay later provider.
+UserAPI is a Java based SpringBoot RESTful API designed to provide user registration and vendor switching functionality for an online buy now pay later provider.
 Accessing the service using a POST call provides a simple way to access the service and to allow for scalability in line with the growth of the e-commerce business.
+This service uses JPA and Hibernate for database functionality and management. 
 
 
 ## Installation

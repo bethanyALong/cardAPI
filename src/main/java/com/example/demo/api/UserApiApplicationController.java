@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @RestController
-public class CardApiApplicationController implements WebMvcConfigurer {
+public class UserApiApplicationController implements WebMvcConfigurer {
 
     @Value("${xAuthToken}")
     private String AuthToken;
