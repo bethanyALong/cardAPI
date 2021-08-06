@@ -2,12 +2,15 @@ package com.example.demo.services;
 
 import com.example.demo.models.ErrorCodeEnum;
 import com.example.demo.models.ResponseModel;
+import com.example.demo.models.Stores;
 import com.example.demo.models.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
+
+import java.util.Objects;
 
 @Service
 public class DatabaseFacadeImpl implements DatabaseFacade{
@@ -74,6 +77,19 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         }
         response.replace(response.length()-1, response.length(), ".");
         return response.toString();
+    }
+
+    @Override
+    public ResponseEntity<ResponseModel> switchVendor(Stores stores, Integer userID) {
+        ResponseEntity<ResponseModel> response = getUser(userID);
+        if (Objects.requireNonNull(response.getBody()).details != null) {
+            UserDetails user = (UserDetails) response.getBody().details;
+            user.setStores(stores);
+            response = registerUser(user);
+            Stores updatedStores = ((UserDetails) response.getBody().details).getStores();
+            response.getBody().details = updatedStores;
+        }
+        return response;
     }
 
 }

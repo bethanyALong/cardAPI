@@ -34,7 +34,7 @@ public class CardApiApplicationController implements WebMvcConfigurer {
     @PostMapping("/vendor-switch")
     public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestHeader(value = "userID", required = true)  Integer userID, @RequestBody(required = true) Stores stores){
         validateAuth(xAuthToken);
-        return vendorFacade.switchVendor(stores, userID);
+        return databaseFacade.switchVendor(stores, userID);
     }
 
 

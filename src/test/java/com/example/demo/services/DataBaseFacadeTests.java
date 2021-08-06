@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class))
+@DataJpaTest()
 public class DataBaseFacadeTests {
 
     @Autowired
