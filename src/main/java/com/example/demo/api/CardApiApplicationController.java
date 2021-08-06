@@ -28,15 +28,13 @@ public class CardApiApplicationController implements WebMvcConfigurer {
     @PostMapping("/register-user")
     public ResponseEntity<ResponseModel> registerUser(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
         validateAuth(xAuthToken);
-        ResponseEntity<ResponseModel> response = databaseFacade.registerUser(userDetails);
-        return response;
+        return databaseFacade.registerUser(userDetails);
     }
 
     @PostMapping("/vendor-switch")
     public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestHeader(value = "userID", required = true)  Integer userID, @RequestBody(required = true) Stores stores){
         validateAuth(xAuthToken);
-        ResponseEntity<ResponseModel> response = vendorFacade.switchVendor(stores, userID);
-        return response;
+        return vendorFacade.switchVendor(stores, userID);
     }
 
 

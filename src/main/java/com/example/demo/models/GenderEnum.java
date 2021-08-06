@@ -2,5 +2,5 @@ package com.example.demo.models;
 
 public enum GenderEnum {
 
-    MALE, FEMALE, NONBINARY;
+    MALE, FEMALE, NONBINARY
 }

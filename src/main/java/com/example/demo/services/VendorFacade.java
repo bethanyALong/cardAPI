@@ -10,5 +10,4 @@ public interface VendorFacade {
 
     ResponseEntity<ResponseModel> switchVendor(Stores stores, Integer userID);
 
-    ResponseEntity<ResponseModel> changeVendorStatus(Stores stores, Integer userID);
 }

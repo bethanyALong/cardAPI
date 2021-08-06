@@ -1,8 +1,6 @@
 package builders;
 
-import com.example.demo.models.Address;
-import com.example.demo.models.GenderEnum;
-import com.example.demo.models.UserDetails;
+import com.example.demo.models.*;
 
 public class RequestBuilder {
 
@@ -18,10 +16,13 @@ public class RequestBuilder {
         userDetails.setBirthDay("09");
         userDetails.setBirthMonth("10");
         userDetails.setBirthYear("1995");
-        userDetails.setLongCardNumber("1234567898765432");
-        userDetails.setExpiryDate("0909");
-        userDetails.setCvv("098");
-        userDetails.setBalance(100);
+
+        CardDetails cardDetails = new CardDetails();
+        cardDetails.setLongCardNumber("1234567898765432");
+        cardDetails.setExpiryDate("0909");
+        cardDetails.setCvv("098");
+        cardDetails.setBalance(100);
+        userDetails.setCardDetails(cardDetails);
 
         Address address = new Address();
         address.setDoorNumber(5);
@@ -30,6 +31,15 @@ public class RequestBuilder {
         address.setPostCode("AL8 7PL");
         userDetails.setAddress(address);
 
+        Stores stores = new Stores();
+        userDetails.setStores(stores);
+
         return userDetails;
+    }
+
+    public Stores getStores(){
+        Stores stores = new Stores();
+        stores.setAsda(true);
+        return stores;
     }
 }

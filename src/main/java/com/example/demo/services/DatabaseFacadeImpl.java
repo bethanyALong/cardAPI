@@ -9,15 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Service
 public class DatabaseFacadeImpl implements DatabaseFacade{
 
     @Autowired
     UserDetailsRepository userDetailsRepository;
-
 
     @Override
     public ResponseEntity<ResponseModel> registerUser(UserDetails userDetails) {
@@ -47,10 +43,17 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         ResponseModel responseModel = new ResponseModel();
         HttpStatus httpStatus;
         try {
-            responseModel.details = userDetailsRepository.findByUserID(id).orElse(null);
-            responseModel.responseCode = ErrorCodeEnum.SUCCESS_GET.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.errorMessage;
-            httpStatus = HttpStatus.OK;
+            UserDetails userDetails = userDetailsRepository.findByUserID(id).orElse(null);
+            if (userDetails == null){
+                responseModel.responseCode = ErrorCodeEnum.USER_NOT_FOUND.errorCode;
+                responseModel.responseMessage = ErrorCodeEnum.USER_NOT_FOUND.errorMessage;
+                httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            } else {
+                responseModel.details = userDetails;
+                responseModel.responseCode = ErrorCodeEnum.SUCCESS_GET.errorCode;
+                responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.errorMessage;
+                httpStatus = HttpStatus.OK;
+            }
         }catch (Exception e){
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
             responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage.replace("x", e.getMessage());
@@ -60,7 +63,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
     }
 
     public String validationValues(String message){
-        List<String> inputString = Arrays.asList(message.split(","));
+        String[] inputString = message.split(",");
         String word = "propertyPath=";
         StringBuilder response = new StringBuilder("the following parameters: ");
         for (String s : inputString){

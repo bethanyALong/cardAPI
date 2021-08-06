@@ -12,12 +12,12 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Stores {
+public class Stores{
 
-    public Boolean asos = false;
+    private Boolean asos;
 
-    public Boolean asda = false;
+    private Boolean asda;
 
-    public Boolean ebay = false;
+    private Boolean ebay;
 
 }
