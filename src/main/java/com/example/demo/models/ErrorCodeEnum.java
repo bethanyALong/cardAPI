@@ -4,7 +4,7 @@ public enum ErrorCodeEnum {
 
     SUCCESS_CREATION("001", "User created successfully"),
     FOBIDDEN_REQUEST("004", "Forbidden request"),
-    DATABASE_FAILURE("005", "Database failure due to x"),
+    DATABASE_FAILURE("005", "Database failure due to internal error"),
     VALIDATION_FAILURE("006", "Validation failure due to x"),
     SUCCESS_GET("007", "User successfully retrieved"),
     USER_NOT_FOUND("008", "User not found");

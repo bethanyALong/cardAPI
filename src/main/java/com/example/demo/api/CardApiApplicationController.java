@@ -3,7 +3,6 @@ package com.example.demo.api;
 import com.example.demo.exceptions.InvalidAuthorisationException;
 import com.example.demo.models.*;
 import com.example.demo.services.DatabaseFacade;
-import com.example.demo.services.VendorFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,10 +19,6 @@ public class CardApiApplicationController implements WebMvcConfigurer {
 
     @Autowired
     DatabaseFacade databaseFacade;
-
-    @Autowired
-    VendorFacade vendorFacade;
-
 
     @PostMapping("/register-user")
     public ResponseEntity<ResponseModel> registerUser(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){

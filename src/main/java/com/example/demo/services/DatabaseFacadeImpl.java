@@ -35,7 +35,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             httpStatus = HttpStatus.BAD_REQUEST;
         } catch (Exception e){
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage.replace("x", e.getMessage());
+            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(responseModel, httpStatus);
@@ -59,7 +59,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             }
         }catch (Exception e){
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage.replace("x", e.getMessage());
+            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(responseModel, httpStatus);
