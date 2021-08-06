@@ -11,7 +11,7 @@ public class ResponseBuilder {
     HttpStatus httpStatus;
 
 
-    public ResponseEntity<ResponseModel> getSuccessResponseRegister(){
+    public ResponseEntity<ResponseModel> getSuccessResponseRegister() {
         responseModel.details = requestBuilder.getUserDetails();
         responseModel.responseCode = ErrorCodeEnum.SUCCESS_CREATION.responseCode;
         responseModel.responseMessage = ErrorCodeEnum.SUCCESS_CREATION.responseMessage;

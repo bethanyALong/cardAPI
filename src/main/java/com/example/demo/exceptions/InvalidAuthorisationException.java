@@ -1,8 +1,8 @@
 package com.example.demo.exceptions;
 
-public class InvalidAuthorisationException extends RuntimeException{
+public class InvalidAuthorisationException extends RuntimeException {
 
-    public InvalidAuthorisationException(){
+    public InvalidAuthorisationException() {
     }
 
 }

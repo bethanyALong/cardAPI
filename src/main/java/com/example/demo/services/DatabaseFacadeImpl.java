@@ -15,7 +15,7 @@ import java.util.Objects;
 import static com.example.demo.models.Constants.*;
 
 @Service
-public class DatabaseFacadeImpl implements DatabaseFacade{
+public class DatabaseFacadeImpl implements DatabaseFacade {
 
     @Autowired
     UserDetailsRepository userDetailsRepository;
@@ -29,13 +29,13 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             responseModel.responseCode = ErrorCodeEnum.SUCCESS_CREATION.responseCode;
             responseModel.responseMessage = ErrorCodeEnum.SUCCESS_CREATION.responseMessage;
             httpStatus = HttpStatus.OK;
-        } catch (TransactionSystemException e){
+        } catch (TransactionSystemException e) {
             responseModel.responseCode = ErrorCodeEnum.VALIDATION_FAILURE.responseCode;
             String message = e.getCause().getCause().getMessage();
             String validationFailures = validationValues(message);
-            responseModel.responseMessage = String.format(ErrorCodeEnum.VALIDATION_FAILURE.responseMessage, validationFailures);
+            responseModel.responseMessage = ErrorCodeEnum.VALIDATION_FAILURE.responseMessage.replace("%x", validationFailures);
             httpStatus = HttpStatus.BAD_REQUEST;
-        } catch (Exception e){
+        } catch (Exception e) {
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.responseCode;
             responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.responseMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -49,7 +49,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         HttpStatus httpStatus;
         try {
             UserDetails userDetails = userDetailsRepository.findByUserID(id).orElse(null);
-            if (userDetails == null){
+            if (userDetails == null) {
                 responseModel.responseCode = ErrorCodeEnum.USER_NOT_FOUND.responseCode;
                 responseModel.responseMessage = ErrorCodeEnum.USER_NOT_FOUND.responseMessage;
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -59,7 +59,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
                 responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.responseMessage;
                 httpStatus = HttpStatus.OK;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.responseCode;
             responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.responseMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -77,7 +77,7 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
             UserDetails user = (UserDetails) response.getBody().details;
             user.setStores(stores);
             ResponseEntity<ResponseModel> responseUpdated = registerUser(user);
-            if(responseUpdated.getBody().details != null) {
+            if (responseUpdated.getBody().details != null) {
                 Stores updatedStores = ((UserDetails) responseUpdated.getBody().details).getStores();
                 responseModel.details = updatedStores;
                 return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.OK);
@@ -88,17 +88,17 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         return response;
     }
 
-    public String validationValues(String message){
+    public String validationValues(String message) {
         String[] inputString = message.split(COMMA);
         String word = PROPERTY_PATH;
         StringBuilder response = new StringBuilder(PARAMETER_LIST);
-        for (String s : inputString){
-            if (s.contains(word)){
+        for (String s : inputString) {
+            if (s.contains(word)) {
                 String s1 = s.replace(word, DEAD_SPACE);
                 response.append(s1).append(COMMA);
             }
         }
-        response.replace(response.length()-1, response.length(), FULL_STOP);
+        response.replace(response.length() - 1, response.length(), FULL_STOP);
         return response.toString();
     }
 }

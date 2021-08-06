@@ -11,11 +11,10 @@ public enum ErrorCodeEnum {
     SUCCESS_UPDATE("009", "User stores successfully updated");
 
 
-
     public String responseMessage;
     public String responseCode;
 
-    ErrorCodeEnum(String responseCode, String responseMessage){
+    ErrorCodeEnum(String responseCode, String responseMessage) {
         this.responseCode = responseCode;
         this.responseMessage = responseMessage;
     }

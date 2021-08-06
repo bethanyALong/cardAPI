@@ -4,7 +4,7 @@ import com.example.demo.models.*;
 
 public class RequestBuilder {
 
-    public UserDetails getUserDetails(){
+    public UserDetails getUserDetails() {
         UserDetails userDetails = new UserDetails();
         userDetails.setEmailAddress("test@aol.com");
         userDetails.setPassword("Thisispassword");
@@ -37,7 +37,7 @@ public class RequestBuilder {
         return userDetails;
     }
 
-    public Stores getStores(){
+    public Stores getStores() {
         Stores stores = new Stores();
         stores.setAsda(true);
         return stores;

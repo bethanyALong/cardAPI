@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Stores{
+public class Stores {
 
     private Boolean asos;
 

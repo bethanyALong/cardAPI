@@ -21,19 +21,18 @@ public class UserApiApplicationController implements WebMvcConfigurer {
     DatabaseFacade databaseFacade;
 
     @PostMapping("/register-user")
-    public ResponseEntity<ResponseModel> registerUser(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestBody(required = true) UserDetails userDetails){
+    public ResponseEntity<ResponseModel> registerUser(@RequestHeader(value = "x-auth-token", required = true) String xAuthToken, @RequestBody(required = true) UserDetails userDetails) {
         validateAuth(xAuthToken);
         return databaseFacade.registerUser(userDetails);
     }
 
     @PostMapping("/vendor-switch")
-    public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true)  String xAuthToken, @RequestHeader(value = "userID", required = true)  Integer userID, @RequestBody(required = true) Stores stores){
+    public ResponseEntity<ResponseModel> vendorSwitch(@RequestHeader(value = "x-auth-token", required = true) String xAuthToken, @RequestHeader(value = "userID", required = true) Integer userID, @RequestBody(required = true) Stores stores) {
         validateAuth(xAuthToken);
         return databaseFacade.switchVendor(stores, userID);
     }
 
-
-    public void validateAuth(String xAuthToken){
+    public void validateAuth(String xAuthToken) {
         if (xAuthToken == null
                 || xAuthToken.isEmpty()
                 || !AuthToken.equals(xAuthToken)) {
@@ -52,6 +51,5 @@ public class UserApiApplicationController implements WebMvcConfigurer {
         errorModel.responseMessage = ErrorCodeEnum.FOBIDDEN_REQUEST.responseMessage;
         return new ResponseEntity<>(errorModel, HttpStatus.FORBIDDEN);
     }
-
 
 }

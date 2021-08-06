@@ -47,9 +47,9 @@ public class CardAPIApplicationControllerTests {
         String jsonInString = objectMapper.writeValueAsString(userDetails);
         this.mockMvc
                 .perform(post("/register-user")
-                .content(jsonInString)
-                .contentType("application/json")
-                .header("x-auth-token", "test"))
+                        .content(jsonInString)
+                        .contentType("application/json")
+                        .header("x-auth-token", "test"))
                 .andExpect(status().isOk());
     }
 

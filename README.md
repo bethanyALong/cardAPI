@@ -11,7 +11,7 @@ Java 11 or higher is required. All other dependencies are managed within the bui
 
 ## Usage
 
-The service can be initialised through the CardApiApplication class or by running
+The service can be initialised through the UserApiApplication class or by running
 ```bash
 gradle bootRun
 ```
