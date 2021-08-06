@@ -19,6 +19,8 @@ gradle bootRun
 
 Whilst running the service can be hit through a CURL request, a sample of which can be found below.
 
+Register-user:
+
 ```
 curl --location --request POST 'http://localhost:8080/register-user' \
 --header 'x-auth-token: vD08cTfRi7' \
@@ -48,6 +50,19 @@ curl --location --request POST 'http://localhost:8080/register-user' \
     "stores": {
     },
     "dtype": "test"
+}'
+```
+Vendor-switch:
+
+```
+curl --location --request POST 'http://localhost:8080/vendor-switch' \
+--header 'x-auth-token: vD08cTfRi7' \
+--header 'userID: 34' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "asos": true,
+    "asda": false,
+    "ebay": false
 }'
 ```
 
