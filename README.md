@@ -1,8 +1,8 @@
 # User Service
 
 UserAPI is a Java based SpringBoot RESTful API designed to provide user registration and vendor switching functionality
-for an online buy now pay later provider. Accessing the service using a POST call provides a simple way to access the
-service and to allow for scalability in line with the growth of the e-commerce business. This service uses JPA and
+for an online buy now pay later provider. Accessing the service using a variety of POST calls provides a simple way to access the
+service and to allow for scalability in line with the growth of the business. This service uses JPA and
 Hibernate for database functionality and management.
 
 ## Installation
@@ -53,5 +53,4 @@ curl --location --request POST 'http://localhost:8080/register-user' \
 
 ## Additional Functionality
 
-This service was created with a view to implement the rest of the functionality required to provide a complete user sign
-up and create payment journey. 
+This service was created with a view to implement the rest of the functionality required to provide a complete payment journey. 
