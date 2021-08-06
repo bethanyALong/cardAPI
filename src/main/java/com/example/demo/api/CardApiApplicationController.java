@@ -48,8 +48,8 @@ public class CardApiApplicationController implements WebMvcConfigurer {
             InvalidAuthorisationException exception
     ) {
         ResponseModel errorModel = new ResponseModel();
-        errorModel.responseCode = ErrorCodeEnum.FOBIDDEN_REQUEST.errorCode;
-        errorModel.responseMessage = ErrorCodeEnum.FOBIDDEN_REQUEST.errorMessage;
+        errorModel.responseCode = ErrorCodeEnum.FOBIDDEN_REQUEST.responseCode;
+        errorModel.responseMessage = ErrorCodeEnum.FOBIDDEN_REQUEST.responseMessage;
         return new ResponseEntity<>(errorModel, HttpStatus.FORBIDDEN);
     }
 

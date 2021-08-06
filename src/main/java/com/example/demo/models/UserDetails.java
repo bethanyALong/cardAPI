@@ -71,4 +71,7 @@ public class UserDetails {
     @NotNull
     private CardDetails cardDetails;
 
+    @NotNull
+    private String dtype;
+
 }

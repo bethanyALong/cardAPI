@@ -12,6 +12,8 @@ import org.springframework.transaction.TransactionSystemException;
 
 import java.util.Objects;
 
+import static com.example.demo.models.Constants.*;
+
 @Service
 public class DatabaseFacadeImpl implements DatabaseFacade{
 
@@ -24,18 +26,18 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         HttpStatus httpStatus;
         try {
             responseModel.details = userDetailsRepository.save(userDetails);
-            responseModel.responseCode = ErrorCodeEnum.SUCCESS_CREATION.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.SUCCESS_CREATION.errorMessage;
+            responseModel.responseCode = ErrorCodeEnum.SUCCESS_CREATION.responseCode;
+            responseModel.responseMessage = ErrorCodeEnum.SUCCESS_CREATION.responseMessage;
             httpStatus = HttpStatus.OK;
         } catch (TransactionSystemException e){
-            responseModel.responseCode = ErrorCodeEnum.VALIDATION_FAILURE.errorCode;
+            responseModel.responseCode = ErrorCodeEnum.VALIDATION_FAILURE.responseCode;
             String message = e.getCause().getCause().getMessage();
             String validationFailures = validationValues(message);
-            responseModel.responseMessage = ErrorCodeEnum.VALIDATION_FAILURE.errorMessage.replace("x", validationFailures);
+            responseModel.responseMessage = String.format(ErrorCodeEnum.VALIDATION_FAILURE.responseMessage, validationFailures);
             httpStatus = HttpStatus.BAD_REQUEST;
         } catch (Exception e){
-            responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage;
+            responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.responseCode;
+            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.responseMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(responseModel, httpStatus);
@@ -48,48 +50,55 @@ public class DatabaseFacadeImpl implements DatabaseFacade{
         try {
             UserDetails userDetails = userDetailsRepository.findByUserID(id).orElse(null);
             if (userDetails == null){
-                responseModel.responseCode = ErrorCodeEnum.USER_NOT_FOUND.errorCode;
-                responseModel.responseMessage = ErrorCodeEnum.USER_NOT_FOUND.errorMessage;
+                responseModel.responseCode = ErrorCodeEnum.USER_NOT_FOUND.responseCode;
+                responseModel.responseMessage = ErrorCodeEnum.USER_NOT_FOUND.responseMessage;
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             } else {
                 responseModel.details = userDetails;
-                responseModel.responseCode = ErrorCodeEnum.SUCCESS_GET.errorCode;
-                responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.errorMessage;
+                responseModel.responseCode = ErrorCodeEnum.SUCCESS_GET.responseCode;
+                responseModel.responseMessage = ErrorCodeEnum.SUCCESS_GET.responseMessage;
                 httpStatus = HttpStatus.OK;
             }
         }catch (Exception e){
-            responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.errorCode;
-            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.errorMessage;
+            responseModel.responseCode = ErrorCodeEnum.DATABASE_FAILURE.responseCode;
+            responseModel.responseMessage = ErrorCodeEnum.DATABASE_FAILURE.responseMessage;
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(responseModel, httpStatus);
-    }
-
-    public String validationValues(String message){
-        String[] inputString = message.split(",");
-        String word = "propertyPath=";
-        StringBuilder response = new StringBuilder("the following parameters: ");
-        for (String s : inputString){
-            if (s.contains(word)){
-                String s1 = s.replace(word, "");
-                response.append(s1).append(",");
-            }
-        }
-        response.replace(response.length()-1, response.length(), ".");
-        return response.toString();
     }
 
     @Override
     public ResponseEntity<ResponseModel> switchVendor(Stores stores, Integer userID) {
         ResponseEntity<ResponseModel> response = getUser(userID);
         if (Objects.requireNonNull(response.getBody()).details != null) {
+            ResponseModel responseModel = new ResponseModel();
+            responseModel.responseCode = ErrorCodeEnum.SUCCESS_UPDATE.responseCode;
+            responseModel.responseMessage = ErrorCodeEnum.SUCCESS_UPDATE.responseMessage;
             UserDetails user = (UserDetails) response.getBody().details;
             user.setStores(stores);
-            response = registerUser(user);
-            Stores updatedStores = ((UserDetails) response.getBody().details).getStores();
-            response.getBody().details = updatedStores;
+            ResponseEntity<ResponseModel> responseUpdated = registerUser(user);
+            if(responseUpdated.getBody().details != null) {
+                Stores updatedStores = ((UserDetails) responseUpdated.getBody().details).getStores();
+                responseModel.details = updatedStores;
+                return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.OK);
+            } else {
+                return responseUpdated;
+            }
         }
         return response;
     }
 
+    public String validationValues(String message){
+        String[] inputString = message.split(COMMA);
+        String word = PROPERTY_PATH;
+        StringBuilder response = new StringBuilder(PARAMETER_LIST);
+        for (String s : inputString){
+            if (s.contains(word)){
+                String s1 = s.replace(word, DEAD_SPACE);
+                response.append(s1).append(COMMA);
+            }
+        }
+        response.replace(response.length()-1, response.length(), FULL_STOP);
+        return response.toString();
+    }
 }

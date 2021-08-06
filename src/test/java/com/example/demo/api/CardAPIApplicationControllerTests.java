@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -46,7 +45,6 @@ public class CardAPIApplicationControllerTests {
     @Test
     public void registerUserSuccess() throws Exception {
         String jsonInString = objectMapper.writeValueAsString(userDetails);
-        Mockito.when(userDetailsRepository.save(Mockito.any(UserDetails.class))).thenReturn(userDetails);
         this.mockMvc
                 .perform(post("/register-user")
                 .content(jsonInString)
@@ -58,7 +56,6 @@ public class CardAPIApplicationControllerTests {
     @Test
     public void registerUserInvalidHeader() throws Exception {
         String jsonInString = objectMapper.writeValueAsString(userDetails);
-        Mockito.when(userDetailsRepository.save(Mockito.any(UserDetails.class))).thenReturn(userDetails);
         this.mockMvc
                 .perform(post("/register-user")
                         .content(jsonInString)
@@ -68,22 +65,8 @@ public class CardAPIApplicationControllerTests {
     }
 
     @Test
-    public void registerUserInvalidRequestBody() throws Exception {
-        userDetails.setEmailAddress(null);
-        String jsonInString = objectMapper.writeValueAsString(userDetails);
-        Mockito.when(userDetailsRepository.save(Mockito.any(UserDetails.class))).thenReturn(userDetails);
-        this.mockMvc
-                .perform(post("/register-user")
-                        .content(jsonInString)
-                        .contentType("application/json")
-                        .header("x-auth-token", "test"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     public void switchVendorSuccess() throws Exception {
         String jsonInString = objectMapper.writeValueAsString(stores);
-        Mockito.when(userDetailsRepository.save(Mockito.any(UserDetails.class))).thenReturn(userDetails);
         this.mockMvc
                 .perform(post("/vendor-switch")
                         .content(jsonInString)
@@ -91,6 +74,31 @@ public class CardAPIApplicationControllerTests {
                         .header("x-auth-token", "test")
                         .header("userID", 1))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void switchVendorFailureDueToInvalidInput() throws Exception {
+        stores = null;
+        String jsonInString = objectMapper.writeValueAsString(stores);
+        this.mockMvc
+                .perform(post("/vendor-switch")
+                        .content(jsonInString)
+                        .contentType("application/json")
+                        .header("x-auth-token", "test")
+                        .header("userID", 1))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void switchVendorFailureDueToInvalidAuthToken() throws Exception {
+        String jsonInString = objectMapper.writeValueAsString(stores);
+        this.mockMvc
+                .perform(post("/vendor-switch")
+                        .content(jsonInString)
+                        .contentType("application/json")
+                        .header("x-auth-token", "fail")
+                        .header("userID", 1))
+                .andExpect(status().isForbidden());
     }
 
 }
